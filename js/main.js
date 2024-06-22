@@ -1,93 +1,34 @@
-let productos = [
-    {
-        id: 'artcid-00001',
-        name: 'Remera High Runner',
-        price: 15000,
-        img: './assets/img/remera_handball.jpg',
-        description: 'Remera de entrenamiento.',
-    },
-    {
-        id: 'artcid-00002',
-        name: 'Remera Hummel',
-        price: 17000,
-        img: './assets/img/remera_handball.jpg',
-        description: 'Remera de entrenamiento.',
-    },
-    {
-        id: 'artcid-00003',
-        name: 'Medias Hummel',
-        price: 6000,
-        img: './assets/img/remera_handball.jpg',
-        description: 'Medias Pack x3 Blancas',
-    },
-    {
-        id: 'artcid-00004',
-        name: 'Camperón CIDECO High Runner',
-        price: 50000,
-        img: './assets/img/remera_handball.jpg',
-        description: 'Camperón de abrigo con los colores de CIDECO.',
-    },
-    {
-        id: 'artcid-00005',
-        name: 'Pantalón CIDECO High Runner',
-        price: 30000,
-        img: './assets/img/remera_handball.jpg',
-        description: 'Pantalón de conjunto azul oscuro.',
-    },
-    {
-        id: 'artcid-00006',
-        name: 'Campera CIDECO High Runner',
-        price: 25000,
-        img: './assets/img/remera_handball.jpg',
-        description: 'Campera de conjunto roja.',
-    },
-    {
-        id: 'artcid-00007',
-        name: 'Short High Runner de Juego',
-        price: 16000,
-        img: './assets/img/remera_handball.jpg',
-        description: 'Short de juego largo negro para caballeros, con escudo de High Runner.',
-    },
-    {
-        id: 'artcid-00008',
-        name: 'Short High Runner de Juego',
-        price: 16000,
-        img: './assets/img/remera_handball.jpg',
-        description: 'Short de juego negro corto para damas, con escudo de High Runner.',
-    },
-    {
-        id: 'artcid-00009',
-        name: 'Media de compresión Hummel',
-        price: 8000,
-        img: './assets/img/remera_handball.jpg',
-        description: 'Media de compresión x2 de color negro.',
-    },
-    {
-        id: 'artcid-00010',
-        name: 'Media de compresión Hummel',
-        price: 8000,
-        img: './assets/img/remera_handball.jpg',
-        description: 'Media de compresión x2 de color blanco.',
-    },
-];
+let productos = [];
 
 let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
 
-function mostrarProductos() {
+const apiML = async (limit = 10) => {
+    const response = await fetch(`https://api.mercadolibre.com/sites/MLA/search?q=Handball&limit=${limit}`);
+    const datos = await response.json();
+    productos = datos.results;
     const productosDiv = document.getElementById('productos');
     productosDiv.innerHTML = '';
 
-    productos.forEach(producto => {
+    productos.forEach(item => {
         const productoDiv = document.createElement('div');
         productoDiv.className = 'producto';
         productoDiv.innerHTML = `
-            <img src="${producto.img}" alt="${producto.name}" width="200" height="300">
-            <h3>${producto.name}</h3>
-            <p>${producto.description}</p>
-            <p>Precio: $${producto.price}</p>
-            <button class="agregar-al-carrito" data-id="${producto.id}">Agregar al carrito</button>
+            <img src="${item.thumbnail}" alt="${item.title}" width="200" height="300">
+            <h3>${item.title}</h3>
+            <p class="stock">Stock: ${item.available_quantity}</p>
+            <p class="precio">Precio: $${item.price}</p>
+            <button class="comprar" data-url="${item.permalink}">Comprar</button>
+            <button class="agregar-al-carrito" data-id="${item.id}">Agregar al carrito</button>
         `;
         productosDiv.appendChild(productoDiv);
+    });
+
+    const buttonsComprar = document.querySelectorAll('.comprar');
+    buttonsComprar.forEach(button => {
+        button.addEventListener('click', () => {
+            const linkML = button.getAttribute('data-url');
+            window.open(linkML, `_blank`);
+        });
     });
 
     const buttons = document.querySelectorAll('.agregar-al-carrito');
@@ -97,10 +38,18 @@ function mostrarProductos() {
             agregarAlCarrito(productoId);
         });
     });
-}
+};
 
-function agregarAlCarrito(productoId) {
+apiML(15);
+
+const agregarAlCarrito = (productoId) => {
     const producto = productos.find(p => p.id === productoId);
+
+    if (!producto) {
+        console.error('Producto no encontrado:', productoId);
+        return;
+    }
+
     const carritoItem = carrito.find(item => item.id === productoId);
 
     if (carritoItem) {
@@ -111,7 +60,7 @@ function agregarAlCarrito(productoId) {
 
     guardarCarrito();
     mostrarCarrito();
-}
+};
 
 function guardarCarrito() {
     localStorage.setItem('carrito', JSON.stringify(carrito));
@@ -124,7 +73,7 @@ function mostrarCarrito() {
     carritoDiv.innerHTML = '';
 
     if (carrito.length === 0) {
-        carritoDiv.innerHTML = '<p>Tu carrito está vacío.</p>';
+        carritoDiv.innerHTML = '<p class="carritoVacio">Tu carrito está vacío.</p>';
         return;
     }
 
@@ -143,10 +92,10 @@ function mostrarCarrito() {
         <tbody>
         ${carrito.map((item, index) => `
             <tr>
-                <td>${item.name}</td>
-                <td>$${item.price}</td>
+                <td>${item.title}</td>
+                <td>$${item.price.toFixed(0)}</td>
                 <td>${item.quantity}</td>
-                <td>$${item.price * item.quantity}</td>
+                <td>$${(item.price * item.quantity).toFixed(0)}</td>
                 <td><button class="eliminar-del-carrito" data-index="${index}">Eliminar</button></td>
             </tr>
         `).join('')}
@@ -157,9 +106,8 @@ function mostrarCarrito() {
     const total = carrito.reduce((sum, item) => sum + item.price * item.quantity, 0);
     const totalDiv = document.createElement('div');
     totalDiv.className = 'total';
-    totalDiv.innerHTML = `<p>Total: $${total}</p>`;
+    totalDiv.innerHTML = `<p>Total: $${total.toFixed(0)}</p>`;
     carritoDiv.appendChild(totalDiv);
-
 
     const finalizarCompraButton = document.createElement('button');
     finalizarCompraButton.className = 'boton-finalizar-compra';
@@ -197,5 +145,6 @@ function eliminarDelCarrito(index) {
     mostrarCarrito();
 }
 
-mostrarProductos();
-mostrarCarrito();
+document.addEventListener('DOMContentLoaded', () => {
+    mostrarCarrito();
+});
