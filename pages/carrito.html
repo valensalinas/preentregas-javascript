@@ -5,15 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TIENDA - CIDECO HANDBALL</title>
-    <link rel="shortcut icon" href="./assets/img/escudo_cideco.png" type="image/x-icon">
-    <link rel="stylesheet" href="./css/style.css">
+    <link rel="shortcut icon" href="../assets/img/escudo_cideco.png" type="image/x-icon">
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 
 <body>
     <header class="header">
         <nav class="navbar">
-            <a class="logo" href="#"><img src="./assets/img/escudo_cideco.png" alt=""></a>
-            <a href="#">
+            <a class="logo" href="../index.html"><img src="../assets/img/escudo_cideco.png" alt=""></a>
+            <a href="../index.html">
                 <h1 class="titulo">CIDECO</h1>
             </a>
             <label class="labe_hamburguesa" for="menu_hamburguesa">
@@ -48,41 +48,27 @@
         <aside>
             <ul class="menu">
                 <li>
-                    
-                    <button id="todos" class="boton-categoria active" data-categoria="todos"><img src="./assets/img/icone-cercle-rempli-noir.png" alt="">Todos los productos</button>
+                    <a class="boton-categoria" href="../index.html"><img class="return-negro" src="../assets/img/volver.png" alt="">Seguir comprando</a>
                 </li>
                 <li>
-                    
-                    <button id="remeras" class="boton-categoria" data-categoria="remeras"><img src="./assets/img/icone-cercle-rempli-noir.png" alt="">Remeras</button>
-                </li>
-                <li>
-                    
-                    <button id="camperas" class="boton-categoria" data-categoria="camperas"><img src="./assets/img/icone-cercle-rempli-noir.png" alt="">Camperas</button>
-                </li>
-                <li>
-                    
-                    <button id="medias" class="boton-categoria" data-categoria="medias"><img src="./assets/img/icone-cercle-rempli-noir.png" alt="">Medias</button>
-                </li>
-                <li>
-                    <a class="boton-carrito" href="./pages/carrito.html"><img class="imagen-carrito" src="./assets/img/carrito-de-compras.png" alt="carrito de compras">Carrito <span class="numero-de-carrito">0</span></a>
+                    <button class="boton-categoria active"><img class="imagen-carrito" src="../assets/img/carrito-de-compras.png" alt="carrito de compras">Carrito<span class="numero-de-carrito">0</span></button>
                 </li>
             </ul>
         </aside>
         <main class="main-tienda">
-            <h2 class="titulo-principal">TODOS LOS PRODUCTOS</h2>
-            <div id="productos">
-                <!-- Los productos se van a cargar acá -->
+            <h2 class="titulo-principal">CARRITO DE COMPRAS</h2>
+            <div class="carrito-productos" id="carrito">
+                <!-- Productos del carrito se mostrarán aquí -->
             </div>
             <div class="whatsapp_sticky">
-                <a href="https://wa.me/1158023911" target="_blank"><img src="./assets/img/whatsapp_sticky.png"
+                <a href="https://wa.me/1158023911" target="_blank"><img src="../assets/img/whatsapp_sticky.png"
                 alt="logo de whatsapp"></a>
             </div>
-            <div class="carrito-index" id="carrito"></div>
         </main>
     </div>
     <footer class="footer-index">
         <div class="ubicacion">
-            <img src="./assets/img/location.png" alt="logo ubicación">
+            <img src="../assets/img/location.png" alt="logo ubicación">
             <a href="https://maps.app.goo.gl/LPvatSMmrkrqpEE1A" target="_blank">Tte. Cnel. Bueras 1171, Gerli, Provincia
                 de
                 Buenos Aires.</a>
@@ -91,18 +77,18 @@
             <p>Copyright Valentín Salinas ©</p>
         </div>
         <div class="redes">
-            <a href="https://www.youtube.com/@cidecohandball3681"><img src="./assets/img/youtube.png"
+            <a href="https://www.youtube.com/@cidecohandball3681"><img src="../assets/img/youtube.png"
                     alt="Logo de Youtube"></a>
             <a href="https://www.facebook.com/p/Cideco-Handball-Argentina-100057400271950/?locale=es_LA"
-                target="_blank"><img src="./assets/img/facebook.png" alt="Logo de Facebook"></a>
+                target="_blank"><img src="../assets/img/facebook.png" alt="Logo de Facebook"></a>
             <a href="https://www.instagram.com/cidecohandball/?hl=es-la" target="_blank"><img
-                    src="./assets/img/instagram.png" alt="Logo de Instagram"></a>
-            <a href="https://twitter.com/handballcideco?lang=es" target="_blank"><img src="./assets/img/twitter.png"
+                    src="../assets/img/instagram.png" alt="Logo de Instagram"></a>
+            <a href="https://twitter.com/handballcideco?lang=es" target="_blank"><img src="../assets/img/twitter.png"
                     alt="Logo de X"></a>
         </div>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="./js/main.js"></script>
+    <script src="../js/main.js"></script>
 </body>
 
 </html>
